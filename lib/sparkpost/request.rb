@@ -4,6 +4,7 @@ require 'json'
 require_relative 'version'
 require_relative 'exceptions'
 
+# return Net::HTTP.get(domain, "#{path}?".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&'))) if not params.nil?
 module SparkPost
   module Request
     def request(url, api_key, data, verb = 'POST')
@@ -15,6 +16,7 @@ module SparkPost
         'Authorization' => api_key
       }
       req = configure_request(uri, headers, data, verb)
+
       process_response(http.request(req))
     end
 

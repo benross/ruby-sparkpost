@@ -19,6 +19,10 @@ module SparkPost
       @transmission ||= Transmission.new(@api_key, @api_host)
     end
 
+    def message_events
+      @message_events ||= Message_events.new(@api_key, @api_host)
+    end
+
     def template
       @template ||= Template.new(@api_key, @api_host)
     end
