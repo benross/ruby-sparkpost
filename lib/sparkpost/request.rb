@@ -42,7 +42,8 @@ module SparkPost
     def configure_request(uri, headers, data, verb)
       req = case verb
             when 'GET'
-              Net::HTTP::Get.new(uri.path, headers)
+              Net::HTTP::Get.new(uri, headers)
+              # Net::HTTP::Get.new(uri.path, headers)
             when 'PUT'
               Net::HTTP::Put.new(uri.path, headers)
             when 'DELETE'

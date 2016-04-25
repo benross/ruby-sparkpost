@@ -9,7 +9,11 @@ module SparkPost
     class Message_events
         include Request
 
-        @@valid_query_params = [
+        def initialize(api_key, api_host)
+            @api_key = api_key
+            @api_host = api_host
+            @base_endpoint = "#{@api_host}/api/v1/message-events" #Looks like -> https://api.sparkpost.com/api/v1/message-events?events=bounce,out_of_band
+            @@valid_query_params = [
             "bounce_classes",
             "campaign_ids",
             "events",
@@ -26,11 +30,6 @@ module SparkPost
             "to",
             "transmission_ids"
         ]
-
-        def initialize(api_key, api_host)
-          @api_key = api_key
-          @api_host = api_host
-          @base_endpoint = "#{@api_host}/api/v1/message-events" #Looks like -> https://api.sparkpost.com/api/v1/message-events?events=bounce,out_of_band
         end
 
         def make_query(opts)
@@ -39,15 +38,15 @@ module SparkPost
         end
 
         def check_query_params(query_params)
+            raise ArgumentError,
+                "query params can't be blank" if query_params.empty?
+
             query_params.each do |key,val|
                 raise ArgumentError,
                     "invalid query param: #{key}" if !@@valid_query_params.include? key.to_s
             end
 
-            raise ArgumentError,
-                "query params can't be blank" if query_params.empty?
-
-            return query_params
+            query_params
         end
 
         def send_query(data = {})
