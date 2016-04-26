@@ -23,6 +23,10 @@ module SparkPost
       @message_events ||= Message_events.new(@api_key, @api_host)
     end
 
+    def suppression_list
+      @suppression_list ||= Suppression_list.new(@api_key, @api_host)
+    end
+
     def template
       @template ||= Template.new(@api_key, @api_host)
     end

@@ -57,7 +57,7 @@ module SparkPost
     end
 
     def process_response(response)
-      response = JSON.parse(response.body)
+      response = JSON.parse(response.body) unless response.body.nil?
       if response['errors']
         raise SparkPost::DeliveryException, response['errors']
       else
