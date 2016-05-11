@@ -29,7 +29,6 @@ module SparkPost
         raise ArgumentError, 'Content missing. Either provide html_message or
          text_message in options parameter'
       end
-
       options_from_args = {
         recipients: prepare_recipients(to),
         content: {

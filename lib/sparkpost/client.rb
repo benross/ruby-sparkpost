@@ -30,5 +30,9 @@ module SparkPost
     def template
       @template ||= Template.new(@api_key, @api_host)
     end
+
+    def deliverability
+      @template ||= Deliverability.new(@api_key, @api_host)
+    end
   end
 end
