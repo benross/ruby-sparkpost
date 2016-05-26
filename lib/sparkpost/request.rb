@@ -16,7 +16,6 @@ module SparkPost
         'Authorization' => api_key
       }
       req = configure_request(uri, headers, data, verb)
-
       process_response(http.request(req))
     end
 

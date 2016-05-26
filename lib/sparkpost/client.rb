@@ -31,8 +31,8 @@ module SparkPost
       @template ||= Template.new(@api_key, @api_host)
     end
 
-    def deliverability
-      @template ||= Deliverability.new(@api_key, @api_host)
+    def metrics
+      @template ||= Metrics.new(@api_key, @api_host)
     end
   end
 end

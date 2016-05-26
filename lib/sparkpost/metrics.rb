@@ -6,13 +6,14 @@ require_relative 'request'
 require_relative 'exceptions'
 
 module SparkPost
-    class Deliverability
+    class Metrics
         include Request
 
         def initialize(api_key, api_host)
             @api_key = api_key
             @api_host = api_host
-            @base_endpoint = "#{@api_host}/api/v1/metrics/deliverability" #Looks like -> https://api.sparkpost.com/api/v1/metrics/deliverability/
+            @base_endpoint = "#{@api_host}/api/v1/metrics" #Looks like -> https://api.sparkpost.com/api/v1/metrics/
+            @@valid_vector_args_types = [String,Array]
             @@valid_query_params = [
                 "from",
                 "to",
@@ -34,8 +35,8 @@ module SparkPost
 
         def make_query(opts)
             raise ArgumentError,
-                "Missing deliverability vector (i.e campaign/bounce-classification) See:https://developers.sparkpost.com/api/#/reference/metrics/" if opts[:vector].nil?
-            @vector = opts[:vector]
+                "Missing metrics vector(s) (i.e campaigns,deliverability) See:https://developers.sparkpost.com/api/#/reference/metrics/" if opts[:vector].nil?
+            @vector = build_vectors opts[:vector]
             check_query_params(opts[:params])
             send_query(opts[:params])
         end
@@ -54,10 +55,19 @@ module SparkPost
         def send_query(data = {})
             request(endpoint(@vector,data),@api_key,nil,"GET")
         end
+
+        def build_vectors(vector_object)#can take string or array
+            raise ArgumentError,
+                "Campaign metrics vector arguments must be a string or array, got #{vector_object.class}" if !(@@valid_vector_args_types.include? vector_object.class)
+            if(vector_object.class == String)
+                resp = vector_object.split(",").join("/")
+            else #hopefully she's an array
+                resp = vector_object.join("/")
+            end
+            resp
+        end
     end
 end
-
-
 
 # from Datetime in format of YYYY-MM-DDTHH:MM Example: 2014-07-11T08:00. Datetime
 # to Datetime in format of YYYY-MM-DDTHH:MM Example: 2014-07-20T09:00. Default: now. Datetime
