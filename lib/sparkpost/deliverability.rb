@@ -8,28 +8,28 @@ require_relative 'exceptions'
 module SparkPost
     class Deliverability
         include Request
+        @@valid_query_params = [
+            "from",
+            "to",
+            "delimiter",
+            "domains",
+            "campaigns",
+            "templates",
+            "nodes",
+            "sending_ips",
+            "ip_pools",
+            "sending_domains",
+            "subaccounts",
+            "protocols",
+            "timezone",
+            "metrics",
+            "limit"
+        ]
 
         def initialize(api_key, api_host)
             @api_key = api_key
             @api_host = api_host
             @base_endpoint = "#{@api_host}/api/v1/metrics/deliverability" #Looks like -> https://api.sparkpost.com/api/v1/metrics/deliverability/
-            @@valid_query_params = [
-                "from",
-                "to",
-                "delimiter",
-                "domains",
-                "campaigns",
-                "templates",
-                "nodes",
-                "sending_ips",
-                "ip_pools",
-                "sending_domains",
-                "subaccounts",
-                "protocols",
-                "timezone",
-                "metrics",
-                "limit"
-            ]
         end
 
         def make_query(opts)
@@ -43,7 +43,6 @@ module SparkPost
         def check_query_params(query_params)
             raise ArgumentError,
                 "query params can't be blank" if query_params.empty?
-
             query_params.each do |key,val|
                 raise ArgumentError,
                     "invalid query param: #{key}" if !@@valid_query_params.include? key.to_s

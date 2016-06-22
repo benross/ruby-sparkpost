@@ -8,12 +8,7 @@ require_relative 'exceptions'
 module SparkPost
     class Message_events
         include Request
-
-        def initialize(api_key, api_host)
-            @api_key = api_key
-            @api_host = api_host
-            @base_endpoint = "#{@api_host}/api/v1/message-events" #Looks like -> https://api.sparkpost.com/api/v1/message-events?events=bounce,out_of_band
-            @@valid_query_params = [
+        @@valid_query_params = [
             "bounce_classes",
             "campaign_ids",
             "events",
@@ -30,6 +25,10 @@ module SparkPost
             "to",
             "transmission_ids"
         ]
+        def initialize(api_key, api_host)
+            @api_key = api_key
+            @api_host = api_host
+            @base_endpoint = "#{@api_host}/api/v1/message-events" #Looks like -> https://api.sparkpost.com/api/v1/message-events?events=bounce,out_of_band
         end
 
         def make_query(opts)
