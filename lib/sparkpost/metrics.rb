@@ -8,6 +8,7 @@ require_relative 'exceptions'
 module SparkPost
     class Metrics
         include Request
+        @@valid_vector_args_types = [String,Array]
         @@valid_query_params = [
             "from",
             "to",
@@ -30,24 +31,6 @@ module SparkPost
             @api_key = api_key
             @api_host = api_host
             @base_endpoint = "#{@api_host}/api/v1/metrics" #Looks like -> https://api.sparkpost.com/api/v1/metrics/
-            @@valid_vector_args_types = [String,Array]
-            @@valid_query_params = [
-                "from",
-                "to",
-                "delimiter",
-                "domains",
-                "campaigns",
-                "templates",
-                "nodes",
-                "sending_ips",
-                "ip_pools",
-                "sending_domains",
-                "subaccounts",
-                "protocols",
-                "timezone",
-                "metrics",
-                "limit"
-            ]
         end
 
         def make_query(opts)
