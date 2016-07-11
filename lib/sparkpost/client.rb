@@ -32,7 +32,7 @@ module SparkPost
     end
 
     def metrics
-      @template ||= Metrics.new(@api_key, @api_host)
+      @metrics ||= Metrics.new(@api_key, @api_host)
     end
   end
 end
