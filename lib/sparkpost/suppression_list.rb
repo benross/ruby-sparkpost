@@ -8,17 +8,17 @@ require_relative 'exceptions'
 module SparkPost
     class Suppression_list
         include Request
+        @@valid_query_params = [
+        "from",
+        "to",
+        "types",
+        "sources",
+        "limit"
+        ]
         def initialize(api_key, api_host)
             @api_key = api_key
             @api_host = api_host
             @base_endpoint = "#{@api_host}/api/v1/suppression-list" 
-            @@valid_query_params = [
-            "from",
-            "to",
-            "types",
-            "sources",
-            "limit"
-            ]
         end
 
         #Body Params need to look like this:
